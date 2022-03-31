@@ -1,4 +1,4 @@
-from flask import Flask, request, Response
+from flask import Flask, request, Response, jsonify
 
 from app.ports.load_from_request import LoanFromArgRequest
 from app.services.loan_service import LoanService
@@ -17,7 +17,7 @@ def hello_world():
 def apr():
     desire = port.execute(request.args)
     percent = service.execute(desire)
-    return Response(response=str(percent), status=201)
+    return jsonify(percent), 201
 
 
 if __name__ == '__main__':
