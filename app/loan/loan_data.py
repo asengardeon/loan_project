@@ -1,11 +1,8 @@
-from datetime import date
-
-
 class Loan:
     amount: float
     term: int
     credit_score: int
-    vehicle_year: date
+    vehicle_year: int
     vehicle_mileage: int
 
     def __init__(self, amount, term, credit_score, vehicle_year, vehicle_mileage) -> None:

@@ -1,5 +1,4 @@
 from app.loan.exceptions.invalid_term import InvalidTermValueException
-from app.loan.loan_data import Loan
 from app.loan.rules import Rules
 
 rules = Rules()

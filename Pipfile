@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 singleton-decorator = "*"
 pytest = "*"
+flask = "*"
 
 [dev-packages]
 

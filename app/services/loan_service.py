@@ -13,7 +13,7 @@ class LoanService:
         self.rules = Rules()
         self.base_rate = BaseRateService()
 
-    def get_loan_percent(self, desire: Loan):
+    def execute(self, desire: Loan):
         validated = self.rules.validate_minimum_maximum_values(desire)
         if not validated:
             raise NotValidLoanException()
