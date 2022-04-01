@@ -1,3 +1,5 @@
+import http
+
 from main import app
 
 client = app.test_client()
@@ -7,4 +9,35 @@ def test_apr_request():
     result = client.get("/apr",  query_string=dict(amount= 10000, term=36, credit_score=700, vehicle_year=2014,
                                                    vehicle_mileage=50000))
     assert result.data.strip() == b'5.75'
-    assert result.status_code == 201
+    assert result.status_code == http.client.OK
+
+
+def test_apr_request_amount_missed():
+    result = client.get("/apr",  query_string=dict(term=36, credit_score=700, vehicle_year=2014,
+                                                   vehicle_mileage=50000))
+    assert str(result.data).find("Param amount is missed") > -1
+    assert result.status_code == http.client.BAD_REQUEST
+
+def test_apr_request_term_missed():
+    result = client.get("/apr",  query_string=dict(amount= 10000, credit_score=700, vehicle_year=2014,
+                                                   vehicle_mileage=50000))
+    assert str(result.data).find("Param term is missed") > -1
+    assert result.status_code == http.client.BAD_REQUEST
+
+def test_apr_request_credit_score_missed():
+    result = client.get("/apr",  query_string=dict(amount= 10000, term=36, vehicle_year=2014,
+                                                   vehicle_mileage=50000))
+    assert str(result.data).find("Param credit_score is missed") > -1
+    assert result.status_code == http.client.BAD_REQUEST
+
+def test_apr_request_vehicle_year_missed():
+    result = client.get("/apr",  query_string=dict(amount= 10000, term=36, credit_score=700,
+                                                   vehicle_mileage=50000))
+    assert str(result.data).find("Param vehicle_year is missed") > -1
+    assert result.status_code == http.client.BAD_REQUEST
+
+def test_apr_request_vehicle_mileage_missed():
+    result = client.get("/apr",  query_string=dict(amount= 10000, term=36, credit_score=700,
+                                                   vehicle_year=2014))
+    assert str(result.data).find("Param vehicle_mileage is missed") > -1
+    assert result.status_code == http.client.BAD_REQUEST
