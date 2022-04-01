@@ -19,7 +19,7 @@ service = LoanService()
 def hello_loan():
     return "Loan project is running!"
 
-@app.route("/apr")
+@app.route("/api/v1/apr")
 def apr():
     try:
         desire = port.execute(request.args)
