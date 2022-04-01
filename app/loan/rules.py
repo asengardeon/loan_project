@@ -17,14 +17,15 @@ class Rules:
         self._fill_configs()
 
     def _validate_term(self, term, amount):
-        if term <= term_up_36:
+        if 0 > term or term > 60:
+            raise InvalidTermValueException(f"The term {term} is not a valid value")
+        elif term <= term_up_36:
             internal_term = term_up_36
         elif term <= term_up_48:
             internal_term = term_up_48
-        elif term <= 60:
-            internal_term = term_up_60
         else:
-            raise InvalidTermValueException(f"The term {term} is not a valid value")
+            internal_term = term_up_60
+
         return self.minimum_loan[internal_term] <= amount
 
     def _validate_loan_by_score(self, score, amount):

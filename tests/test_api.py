@@ -41,3 +41,23 @@ def test_apr_request_vehicle_mileage_missed():
                                                    vehicle_year=2014))
     assert str(result.data).find("Param vehicle_mileage is missed") > -1
     assert result.status_code == http.client.BAD_REQUEST
+
+def test_apr_request_term_invalid_negative():
+    result = client.get("/apr",  query_string=dict(amount= 10000, term=-1, credit_score=700, vehicle_year=2014,
+                                                   vehicle_mileage=50000))
+    assert str(result.data).find("Invalid Term") > -1
+    assert result.status_code == http.client.BAD_REQUEST
+
+def test_apr_request_term_invalid_upper_60():
+    result = client.get("/apr",  query_string=dict(amount= 10000, term=61, credit_score=700, vehicle_year=2014,
+                                                   vehicle_mileage=50000))
+    assert str(result.data).find("Invalid Term") > -1
+    assert result.status_code == http.client.BAD_REQUEST
+
+
+def test_apr_request_score_invalid():
+    result = client.get("/apr",  query_string=dict(amount=10000, term=36, credit_score=-1, vehicle_year=2014,
+                                                   vehicle_mileage=50000))
+    assert str(result.data).find("Invalid score") > -1
+    assert result.status_code == http.client.BAD_REQUEST
+
